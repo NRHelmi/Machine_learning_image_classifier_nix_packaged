@@ -122,5 +122,7 @@ if __name__ == '__main__':
     elif model_name == 'logisticRegression':
         print('Building logistic regression model.')
         model.build_logistic_regression_model()
+    else:
+        print('Unkown model.')
 
     model.accuracy()
