@@ -1,6 +1,6 @@
 # Image classifier
 
-Image classifier is a supervised machine learning image classifier based on sklearn and uses Random Forest | k-nearest neighbor | Logistic Regression.
+Image classifier is a supervised machine learning image classifier based on sklearn library and which uses Random Forest | k-nearest neighbor | Logistic Regression algorithms.
 
 ## Running the project using python
 
