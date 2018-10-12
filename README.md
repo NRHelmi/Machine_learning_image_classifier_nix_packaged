@@ -9,7 +9,7 @@ Image classifier is a supervised machine learning image classifier based on skle
     pip install -r requirements.txt
     python main.py --data-dir data_path --model randomForest
 
-## Running using nix ( you should have nix installed )
+## Running using nix ( you should have [nix](https://nixos.org/nix/download.html) installed )
 
     nix-env -if default.nix
     image_classifier --data-dir data_path --model
