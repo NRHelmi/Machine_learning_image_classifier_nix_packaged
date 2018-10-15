@@ -2,14 +2,21 @@
 
 Image classifier is a supervised machine learning image classifier based on sklearn library and which uses Random Forest | k-nearest neighbor | Logistic Regression algorithms.
 
-## Running the project using python
+## Setting environment using python
 
     virtualenv env
     source env/bin/activate
     pip install -r requirements.txt
+
+## Running the project using python
+
     python main.py --data-dir data_path --model randomForest
 
-## Running using nix ( you should have [nix](https://nixos.org/nix/download.html) installed )
+## Setting environment using nix ( you should have [nix](https://nixos.org/nix/download.html) installed )
+
+    nix-shell -I nixpkgs=channel:nixos-18.03
+
+## Running using nix
 
     nix-env -if default.nix
     image_classifier --data-dir data_path --model
