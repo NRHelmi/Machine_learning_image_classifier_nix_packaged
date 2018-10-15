@@ -17,3 +17,13 @@ Image classifier is a supervised machine learning image classifier based on skle
 `--data-dir` is the directory containing the data inputs/images. Images should have the format of `classname.*` ( for example `car.1.png` ).
 
 `--model` is the machine learning algorithm to use. Three models are available `{ randomForest| knn | logisticRegression }`
+
+## Making prediction
+
+In python
+
+    python main.py --predict image.1.jpg
+
+In nix
+
+    image_classifier --predict image.1.jpg

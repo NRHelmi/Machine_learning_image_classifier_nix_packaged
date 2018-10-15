@@ -25,7 +25,7 @@ class Image:
         return np.array(data.flatten())
     '''Return image reshaped'''
     def get_image(self):
-        return self.data.reshape(200, 200, 3)
+        return self.data.reshape(1, -1)
     '''Draw image'''
     def draw_image(self):
         print('label: %s'%(self.label))
@@ -93,36 +93,48 @@ class Model_Wrapper:
         print('Your model accuracy is: %.2f%s.\n' %(self.accuracy*100, '%'))
     '''make a prediction'''
     def predict(self, image):
-        return self.model.predict([image])
+        return self.model.predict(image)
 
 import configargparse
 
 p = configargparse.ArgParser()
-p.add('-d', '--data-dir', required=True, help='Path to data folder')
-p.add('-m', '--model', required=True, help=' randomForest | knn | logisticRegression')
+p.add('-d', '--data-dir', help='Path to data folder')
+p.add('-m', '--model', help='randomForest | knn | logisticRegression')
+p.add('-p', '--predict', help='path to image to predict')
 
+from sklearn.externals import joblib
 
 if __name__ == '__main__':
 
     options = p.parse_known_args()
 
-    data_path = options[0].data_dir
-    model_name = options[0].model
+    if (options[0].data_dir and options[0].model):
+        data_path = options[0].data_dir
+        model_name = options[0].model
+        images = Images(data_path)
 
-    images = Images(data_path)
+        model_wrapper = Model_Wrapper(len(listdir(data_path))-1, (len(listdir(data_path))-1)/2, images)
 
-    model = Model_Wrapper(len(listdir(data_path))-1, (len(listdir(data_path))-1)/2, images)
-    
-    if model_name == 'randomForest':
-        print('Building random Forest model.')
-        model.build_random_forest_model()
-    elif model_name == 'knn':
-        print('Building KNN model.')
-        model.build_knn_model()
-    elif model_name == 'logisticRegression':
-        print('Building logistic regression model.')
-        model.build_logistic_regression_model()
+        if model_name == 'randomForest':
+            print('Building random Forest model.')
+            model_wrapper.build_random_forest_model()
+        elif model_name == 'knn':
+            print('Building KNN model.')
+            model_wrapper.build_knn_model()
+        elif model_name == 'logisticRegression':
+            print('Building logistic regression model.')
+            model_wrapper.build_logistic_regression_model()
+        else:
+            print('Unkown model.')
+
+        model_wrapper.accuracy()
+        joblib.dump(model_wrapper.model, './model.dump')
+
+    elif (options[0].predict):
+        predict = options[0].predict
+        model = joblib.load('model.dump')
+        image = Image(predict)
+        print(model.predict(image.get_image()))
     else:
-        print('Unkown model.')
+        print('Unkown option.')
 
-    model.accuracy()
